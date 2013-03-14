@@ -1,4 +1,6 @@
-﻿namespace ProjectTriany
+﻿using System;
+
+namespace ProjectTriany
 {
     public class Dictriany
     {
@@ -14,54 +16,50 @@
         {
             if (key <= 0) return 0;
 
-            var currentId = _rootId;
+            var currentId = SearchKey(key, _rootId);
 
-            while (currentId != 0)
-            {
-                if (get_a(currentId) == key)
-                {
-                    break;
-                }
-
-                currentId = get_c(currentId);
-            }
-
-            if (currentId == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return get_b(currentId);
-            }
+            return currentId == 0 ? 0 : get_b(currentId);
         }
 
         public void SetEntry(int key, int value)
         {
             if (key <= 0) return;
 
-            var currentId = _rootId;
-            int preId = _rootId;
+            var currentId = SearchKey(key, _rootId,
+                                  id =>
+                                  {
+                                      var newId = allocate_triany();
+                                      set_c(id, newId);
+                                      set_a(newId, key);
+                                      set_b(newId, value);
+                                  });
 
-            while (currentId != 0)
-            {
-                var currentKey = get_a(currentId);
-                if (currentKey == key) { break; }
-                preId = currentId;
-                currentId = get_c(currentId);
-            }
-
-            if (currentId == 0)
-            {
-                var newId = allocate_triany();
-                set_c(preId, newId);
-                set_a(newId, key);
-                set_b(newId, value);
-            }
-            else
+            if (currentId != 0)
             {
                 set_b(currentId, value);
             }
+        }
+
+        private int SearchKey(int key, int startId, Action<int> keyNotFoundAction = null)
+        {
+            while (startId != 0)
+            {
+                var currentKey = get_a(startId);
+                if (currentKey == key) { break; }
+
+                if (get_c(startId) == 0 && keyNotFoundAction != null)
+                {
+                    keyNotFoundAction(startId);
+                }
+
+                startId = get_c(startId);
+            }
+            return startId;
+        }
+
+        private int root_triany()
+        {
+            return _trianyRepository.GetRootTorianyId();
         }
 
         private int allocate_triany()
@@ -72,11 +70,6 @@
         private void set_a(int id, int value)
         {
             _trianyRepository.SetA(id, value);
-        }
-
-        private int root_triany()
-        {
-            return _trianyRepository.GetRootTorianyId();
         }
 
         private void set_b(int id, int value)
