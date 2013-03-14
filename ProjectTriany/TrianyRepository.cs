@@ -8,55 +8,74 @@ namespace ProjectTriany
     public class TrianyRepository
     {
         private const int ROOT_ID = 1;
-        Dictionary<uint, Triany> TrianyStore = new Dictionary<uint, Triany>();
+        readonly Dictionary<int, Triany> TrianyStore = new Dictionary<int, Triany>();
 
         public TrianyRepository()
         {
             TrianyStore.Add(ROOT_ID,new Triany());
         }
 
-        public uint RootTorianyId()
+        public int GetRootTorianyId()
         {
             return ROOT_ID;
         }
 
-        public void SetA(uint id, uint u)
+        public void SetA(int id, int u)
         {
             TrianyStore[id].A = u;
         }
 
-        public uint GetA(uint id)
+        public int GetA(int id)
         {
-            return TrianyStore[id].A;
+            return TrianyStore.ContainsKey(id) ? TrianyStore[id].A : -1;
         }
 
-        public void SetB(uint id, uint u)
+        public void SetB(int id, int u)
         {
             TrianyStore[id].B = u;
         }
 
-        public uint GetB(uint id)
+        public int GetB(int id)
         {
-            return TrianyStore[id].B;
+            return TrianyStore.ContainsKey(id) ? TrianyStore[id].B : -1;
         }
 
-        public void SetC(uint id, uint u)
+        public void SetC(int id, int u)
         {
             TrianyStore[id].C = u;
         }
 
-        public uint GetC(uint id)
+        public int GetC(int id)
         {
-            return TrianyStore[id].C;
+            return TrianyStore.ContainsKey(id) ? TrianyStore[id].C : -1;
+        }
+
+        public int AllocateTriany()
+        {
+            var newId = Enumerable.Range(2, int.MaxValue - 2).First(i => !TrianyStore.ContainsKey(i));
+            TrianyStore.Add(newId, new Triany());
+
+            return newId;
+        }
+
+        public string ToString(int id)
+        {
+            var triany = TrianyStore[id];
+            return string.Format("{0}:{1}",id,triany );
         }
     }
 
     internal class Triany
     {
-        public uint A { get; set; }
+        public int A { get; set; }
 
-        public uint B { get; set; }
+        public int B { get; set; }
 
-        public uint C { get; set; }
+        public int C { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("[{0},{1},{2}]",A,B,C);
+        }
     }
 }
