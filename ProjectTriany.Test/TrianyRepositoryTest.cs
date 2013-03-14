@@ -119,7 +119,7 @@ namespace ProjectTriany.Test
 
             private void set_a(int id, int val)
             {
-                _sut.SetA(id,val);
+                _sut.SetA(id, val);
             }
 
             private void set_b(int id, int val)
@@ -161,7 +161,6 @@ namespace ProjectTriany.Test
             {
                 _sut.GetA(_allocatedId).IsNot(-1);
             }
-
 
             [TestCase]
             public void 割り当てたトリアニーのAに値が設定する()
