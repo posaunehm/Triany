@@ -43,6 +43,7 @@
     <Compile Include="ChainingAssertion.NUnit.cs" />
     <Compile Include="DictrianyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestDataRoaderTest.cs" />
     <Compile Include="TrianyRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +51,11 @@
       <Project>{6C4D5A2E-CE9E-4D21-A1EB-1DAC9A99047F}</Project>
       <Name>ProjectTriany</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestData\テスト用データ_全部入り.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

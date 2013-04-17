@@ -26,13 +26,13 @@ namespace ProjectTriany
             if (key <= 0) return;
 
             var currentId = SearchKey(key, _rootId,
-                                  id =>
-                                  {
-                                      var newId = allocate_triany();
-                                      set_c(id, newId);
-                                      set_a(newId, key);
-                                      set_b(newId, value);
-                                  });
+                                    id =>
+                                    {
+                                        var newId = allocate_triany();
+                                        set_c(id, newId);
+                                        set_a(newId, key);
+                                        set_b(newId, value);
+                                    });
 
             if (currentId != 0)
             {
